@@ -72,6 +72,39 @@ then
   return
 fi
 
+#check if libpcre3-dev command is installed
+sudo dpkg -l | grep libpcre3-dev > /dev/null
+if [ $? -ne 0 ]
+then
+  echo libpcre3-dev not installed.
+  echo this is needed to detect windows [File version] and [Product Version] information. 
+  echo Please run:
+  echo sudo apt-get install libpcre3-dev -y
+  echo
+fi
+
+#check if libssl-dev command is installed
+sudo dpkg -l | grep libssl-dev > /dev/null
+if [ $? -ne 0 ]
+then
+  echo libssl-dev not installed.
+  echo this is needed to detect windows [File version] and [Product Version] information. 
+  echo Please run:
+  echo sudo apt-get install libssl-dev -y
+  echo
+fi
+
+#detect if pestr command is available
+ls -1 /usr/bin/pestr > /dev/null
+if [ $? -ne 0 ]
+then
+  wget http://sourceforge.net/projects/pev/files/pev-0.70/pev-0.70.tar.gz/download -O $tmp/pev.tar.gz
+  tar -vzxf $tmp/pev.tar.gz -C $tmp
+  cd $tmp/pev
+  make
+  make install
+fi
+
 #if client_secrets.json not exist then google upload will not work
 if [ ! -f ~/client_secrets.json ]
 then
