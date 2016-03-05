@@ -62,6 +62,17 @@ if [ ! -f "./html-downloader.py" ]; then
   echo
 fi
 
+#check if unrar command is installed
+sudo dpkg -l | grep unrar > /dev/null
+if [ $? -ne 0 ]
+then
+  echo unrar support not installed. Please run:
+  echo "wget -O unrar_4.1.4-1_armhf.deb goo.gl/Vxyu0Y"
+  echo "sudo dpkg -i unrar_4.1.4-1_armhf.deb"
+  echo
+  return
+fi
+
 #check if 7z command is installed
 sudo dpkg -l | grep p7zip-full > /dev/null
 if [ $? -ne 0 ]
