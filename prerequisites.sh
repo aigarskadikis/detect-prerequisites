@@ -196,7 +196,10 @@ fi
 fi
 fi
 
-
+instance=$(ps aux | grep "[c]heck.sh" | wc -l)
+if [ $instance -gt 0 ]; then
+echo check.sh already running
+else 
 cd `dirname $0`
 todo=$(ls -1 */check.sh | sed '$aend of file')
 printf %s "$todo" | while IFS= read -r job
@@ -206,3 +209,4 @@ cd $workdir
 ./check.sh
 cd ..
 } done
+fi
